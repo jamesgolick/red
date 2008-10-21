@@ -62,15 +62,10 @@ module Red
     class For < ControlNode # :nodoc:
       # [:for, {expression}, {expression}, {expression | :block}]
       def initialize(source_sexp, iterator_assignment_sexp, body_sexp, options)
-        body = body_sexp.red!
-        unless source_sexp.is_sexp?(:xstr, :dxstr)
-          source   = source_sexp.red!(:as_argument => true)
-          iterator = iterator_assignment_sexp.last.red!
-          self << "for(var %s in %s){%s;}" % [iterator, source, body]
-        else
-          loop_statement = source_sexp.red!
-          self << "for(%s){%s;}" % [loop_statement, body]
-        end
+        iterator = iterator_assignment_sexp.last.red!
+        source   = source_sexp.red!(:as_receiver => true)
+        body     = body_sexp.red!
+        self << "%s.m$each(function(%s){%s;}.m$(this))" % [source, iterator, body]
       end
     end
     

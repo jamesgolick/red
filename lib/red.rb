@@ -193,6 +193,7 @@ module Red # :nodoc:
     block_given?
     call
     class
+    each
     extend_object
     extended
     hash
