@@ -3100,8 +3100,8 @@ class Hash
   #   # Values from defaults are stored in the hash
   #   h2.keys           #=> [:c, :d]
   # 
-  def initialize(&block)
-    `this.__default__=(block==null?nil:block)`
+  def initialize(*args,&block)
+    `this.__default__=(args[0]==null?block==null?nil:block:args[0])`
     `this.__contents__={}`
   end
   
