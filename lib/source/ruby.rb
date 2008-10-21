@@ -4356,7 +4356,7 @@ class Numeric
   #   ?a.chr    #=> "a"
   # 
   def chr
-    `String.fromCharCode(parseInt(this))`
+    `$q(String.fromCharCode(parseInt(this)))`
   end
   
   # call-seq:
