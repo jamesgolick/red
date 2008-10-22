@@ -93,6 +93,7 @@
       if(name=='Class'&&!(newClass.__superclass__.__children__[name])){Red.conferInheritance(c$Class,c$Module);}
     } else {
       switch(name){case 'Array':newClass=Array;break;case 'Numeric':newClass=Number;break;default:newClass=function(){this.__id__=Red.id++;};};
+      if(superclass.m$class&&superclass.m$class()!==c$Class){m$raise(c$TypeError,$q('superclass must be a Class ('+superclass.m$class().__name__+' given)'))}
       Red.conferInheritance(newClass,superclass);
       Red.initializeClass(longName,newClass);
       superclass.__children__[newClass.__name__]=true;
