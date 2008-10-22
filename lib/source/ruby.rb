@@ -80,6 +80,7 @@
       newModule.__includers__={};
     };
     if(typeof(block)=='function') { block.call(newModule); };
+    Red.updateIncluders(newModule);
   },
   
   _class: function(longName,superclass,block){
