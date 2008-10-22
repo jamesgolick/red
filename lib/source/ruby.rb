@@ -54,7 +54,7 @@
     newClass.__children__ = {};
     newClass.__class__ = c$Class;
     newClass.prototype.__class__=newClass;
-    Red.donateMethodsToSingleton(c$Class.prototype,newClass,true)
+    Red.donateMethodsToSingleton(c$Class.prototype,newClass,true);
   },
   
   interpretNamespace: function(longName) {
@@ -70,45 +70,38 @@
   },
   
   _module: function(longName,block){
-    var newModule,context=Red.interpretNamespace(longName),namespace=context[0],name=context[1];
-    if(namespace['c$'+name]) {
-      newModule = namespace['c$'+name];
+    var newModule,context=Red.interpretNamespace(longName),namespace=context[0],name=context[1],c$name='c$'+name;
+    if(namespace[c$name]) {
+      if(namespace[c$name].m$class&&namespace[c$name].m$class()!==c$Module){m$raise(c$TypeError,$q(longName+' is not a Module'));};
+      newModule = namespace[c$name];
     } else {
       newModule = c$Module.m$new(longName);
-      namespace['c$'+name] = newModule;
+      namespace[c$name] = newModule;
       newModule.__includers__={};
     };
     if(typeof(block)=='function') { block.call(newModule); };
   },
   
   _class: function(longName,superclass,block){
-    var newClass,context=Red.interpretNamespace(longName),namespace=context[0],name=context[1];
-    if(namespace['c$'+name]) {
-      if(name!=='Object' && superclass!==namespace['c$'+name].__superclass__){m$raise(c$TypeError,$q('superclass mismatch for class '+longName));};
-      newClass = namespace['c$'+name];
+    var newClass,context=Red.interpretNamespace(longName),namespace=context[0],name=context[1],c$name='c$'+name;
+    if(namespace[c$name]) {
+      if(namespace[c$name].m$class&&namespace[c$name].m$class()!==c$Class){m$raise(c$TypeError,$q(longName+' is not a Class'));};
+      if(name!=='Object'&&superclass!==namespace[c$name].__superclass__){m$raise(c$TypeError,$q('superclass mismatch for class '+longName));};
+      newClass = namespace[c$name];
       if(name=='Module'&&!(newClass.__superclass__.__children__[name])){Red.conferInheritance(c$Module,c$Object);}
       if(name=='Class'&&!(newClass.__superclass__.__children__[name])){Red.conferInheritance(c$Class,c$Module);}
     } else {
-      switch(name){
-        case 'Array':newClass=Array;break;case 'Numeric':newClass=Number;break;
-        default: newClass = function() { this.__id__ = Red.id++ };
-      };
+      switch(name){case 'Array':newClass=Array;break;case 'Numeric':newClass=Number;break;default:newClass=function(){this.__id__=Red.id++;};};
       Red.conferInheritance(newClass,superclass);
       Red.initializeClass(longName,newClass);
       superclass.__children__[newClass.__name__]=true;
       superclass.m$inherited && superclass.m$inherited(newClass);
-      namespace['c$'+name] = newClass;
+      namespace[c$name]=newClass;
     };
-    if(name == 'Object' || superclass == c$Object){
-      newClass.cvset = function(var_name,object) { return newClass['v$'+var_name] = object; };
-      newClass.cvget = function(var_name)        { return newClass['v$'+var_name]; };
-    } else {
-      newClass.cvset = function() { return superclass.cvset.apply(null,arguments); };
-      newClass.cvget = function() { return superclass.cvget.apply(null,arguments); };
-    };
-    if(typeof(block)=='function') { block.call(newClass); };
+    if(name=='Object'||superclass==c$Object){newClass.cvset=function(v,o){return newClass['v$'+v]=o;};newClass.cvget=function(v){return newClass['v$'+v];};}else{newClass.cvset=function(v,o){return superclass.cvset(v,o);};newClass.cvget=function(v){return superclass.cvget(v);};};
+    if(typeof(block)=='function'){block.call(newClass);};
     Red.updateChildren(newClass);
-    if((typeof(c$TrueClass)!='undefined'&&newClass==c$TrueClass)||(typeof(c$FalseClass)!='undefined'&&newClass==c$FalseClass)) { Red.donateMethodsToClass(newClass.prototype,Boolean.prototype,true); };
+    if((typeof(c$TrueClass)!='undefined'&&newClass==c$TrueClass)||(typeof(c$FalseClass)!='undefined'&&newClass==c$FalseClass)){Red.donateMethodsToClass(newClass.prototype,Boolean.prototype,true);};
   },
   
   LoopError: {
