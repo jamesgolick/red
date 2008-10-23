@@ -100,7 +100,7 @@ module Red
           splatten_args   = "for(var l=arguments.length,i=#{argument_sexps.size},#{splat_arg}=[];i<l;++i){#{splat_arg}.push(arguments[i]);}" if splat_arg && !block_arg_sexp
           splat_block     = "for(var l=arguments.length,bg=m$blockGivenBool(arguments[l-1]),l=bg?l-1:l,i=#{argument_sexps.size - 1},#{splat_arg}=[];i<l;++i){#{splat_arg}.push(arguments[i]);};var #{block_arg_sexp.last rescue :_block}=(bg?c$Proc.m$new(arguments[arguments.length-1]):nil)" if splat_arg && block_arg_sexp
           block_arg       = "var z=arguments[arguments.length-1],bg=m$blockGivenBool(z),#{block_arg_sexp.last rescue :_block}=bg?c$Proc.m$new(z):nil" if block_arg_sexp && !splat_arg
-          args_checker    = "$a(%s,%s,arguments,%s)" % [minimum_args, (splat_arg ? -1 : maximum_args), (splat_block || block_arg ? "bg?1:0" : "arguments[arguments.length-1]&&arguments[arguments.length-1].__block__?1:0")] if @@red_debug
+          args_checker    = "$a(%s,%s,arguments,%s)" % [minimum_args, (splat_arg ? -1 : maximum_args), (splat_block || block_arg ? "bg?1:0" : "arguments[arguments.length-1]&&arguments[arguments.length-1].__block__?1:0")] if Red.debug
           defaults        = defaults_sexp.red!(:as_argument_default => true) if defaults_sexp
           arguments       = args_array.join(",")
           scope           = scope_sexp.red!(:force_return => function != 'initialize')

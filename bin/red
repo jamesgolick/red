@@ -15,6 +15,7 @@ include Red
 parser = OptionParser.new do |opts|
   opts.banner = RED_MESSAGES[:banner]
   opts.separator ""
+  opts.on('-d',"--debug","Translate Red files to JavaScript in debug mode.")          { Red.instance_eval "def debug;true;end" }
   opts.on('-h',"--help","Show this help message.")                                    { puts opts; exit }
   opts.on('-r',"--rails","Add Red plugin to ./vendor/plugins.")                       { build_red_plugin_for_rails }
   opts.on('-s',"--string=RUBY_STRING","Translate a single string to JavaScript.")     { |string| Red.init && direct_translate(string) }

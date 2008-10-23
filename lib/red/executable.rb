@@ -74,7 +74,9 @@ module Red # :nodoc:
     end
     js_output = hush_warnings { File.read(file).translate_to_sexp_array }.red!
     ruby_js   = compile_ruby_js_source
-    File.open("%s%s.js" % [dir, filename], 'w') {|f| f.write(ruby_js + js_output)} unless dry_run
+    pre  = Red.debug ? "try{" : ""
+    post = Red.debug ? "}catch(e){if(e.__class__){m$raise(e);};$ee=e;var m=e.message.match(/([^\\$]+)\\.m\\$(\\w+)\\sis\\snot\\sa\\sfunction/);if(m){m$raise(c$NoMethodError,$q('undefined method \"'+m[2]+'\" for '+m[1]));};var c=e.message.match(/([\\s\\S]+)\\sis\\sundefined/);if(c){c=c[1].replace(/\\./g,'::').replace(/c\\$/g,'');m$raise(c$NameError,$q('uninitialized constant '+c));};}" : ""
+    File.open("%s%s.js" % [dir, filename], 'w') {|f| f.write(pre + ruby_js + js_output + post)} unless dry_run
     print_js(js_output, filename, dry_run)
   end
   

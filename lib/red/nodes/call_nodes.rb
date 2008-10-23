@@ -88,7 +88,7 @@ module Red
           when :block_given?
             self << "m$blockGivenBool(%s.__block__)" % (@@red_block_arg || 'nil')
           else
-            if true # @@red_debug
+            if Red.debug
               error_function = arguments.empty? ? 'n' : 'm'
               self << "((this.m$%s&&this.m$%s(%s))||(window.m$%s&&window.m%s(%s))||$%s(this,'%s'))" % [function,function,arguments,function,function,arguments,error_function,function_sexp]
             else
