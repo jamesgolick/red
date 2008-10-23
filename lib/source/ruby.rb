@@ -111,7 +111,8 @@
     _next:function(returnValue){var e=new(Error);e.__keyword__='next';e.__return__=returnValue==null?nil:returnValue;throw(e);},
     _redo:function(){var e=new(Error);e.__keyword__='redo';throw(e);},
   }
-};
+}
+;
 
 var $u=undefined,nil=null,$={};
 
@@ -129,6 +130,8 @@ window.m$blockGivenBool=function(){typeof(arguments[0])=='function'}
 
 function $a(min,max,args,bg){var a=args.length-bg;if(a<min){n=min;}else{if(max!=-1&&a>max){n=max;}else{return;};};m$raise(c$ArgumentError, $q('wrong number of arguments ('+a+' for '+n+')'));}
 function $e(e,ary){if(e.m$isABool){for(var i=0,l=ary.length;i<l;++i){if(e.m$isABool(ary[i])){return true;};};};return false;};
+function $m(obj,name){m$raise(c$NoMethodError, $q('undefined method "'+name+'" for '+obj.m$inspect()));}
+function $n(obj,name){m$raise(c$NameError, $q('undefined local variable or method "'+name+'" for '+obj.m$inspect()));}
 function $Q(){for(var i=1,s=arguments[0],l=arguments.length;i<l;++i){s+=$q(arguments[i]).m$toS().__value__;};return $q(s);};
 function $q(obj){if(typeof obj!=='string'){return obj;};return c$String.m$new(obj);};
 function $r(value,options){return c$Regexp.m$new(value,options);};
@@ -1133,7 +1136,7 @@ class Class < Module
   #   foo = Foo.new(1,2)    #=> #<Foo:0x3cc57a>
   #   foo.values            #=> "a,b: [1,2]"
   # 
-  def new
+  def new(*args)
     `var result=this.m$allocate()`
     `this.prototype.m$initialize.apply(result,arguments)`
     return `result`
@@ -1290,8 +1293,8 @@ end
 # 
 module Kernel
   # FIX: Incomplete
-  def block_given?
-    `typeof(arguments[0])=='function'`
+  def block_given?(x)
+    `typeof(x)=='function'`
   end
   
   # FIX: Incomplete
@@ -1379,7 +1382,7 @@ module Kernel
   end
   
   # FIX: Incomplete
-  def raise
+  def raise(*args)
     `var exception_class=c$RuntimeError,msg=$q('')`
     `if(arguments[0]&&arguments[0].m$isABool(c$Exception)){
       var e=arguments[0];
