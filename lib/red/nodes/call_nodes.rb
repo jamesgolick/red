@@ -86,7 +86,7 @@ module Red
           when :[]
             self << "this.m$%s(%s)" % [function, arguments]
           when :block_given?
-            self << "m$blockGivenBool(%s.__block__)" % @@red_block_arg
+            self << "m$blockGivenBool(%s.__block__)" % (@@red_block_arg || 'nil')
           else
             arguments = ','+arguments unless arguments.empty?
             self << "(this.m$%s||m$%s).call(this%s)" % [function, function, arguments]
