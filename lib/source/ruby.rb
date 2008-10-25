@@ -29,6 +29,14 @@
     };
   },
   
+  donateConstantsToClass: function(donor,recipient,overwrite) {
+    for(var x in donor) {
+      if(x.slice(0,2)==='c$' && (overwrite || recipient[x]===undefined)) {
+        recipient[x]=donor[x];
+      };
+    };
+  },
+  
   updateChildren: function(parentClass) {
     for(var x in parentClass.__children__) {
       var childClass=Red.inferConstantFromString(x);
@@ -819,6 +827,7 @@ class Module
   def append_features(mod)
     `Red.donateMethodsToSingleton(this,mod)`
     `Red.donateMethodsToClass(this.prototype,mod.prototype)`
+    `Red.donateConstantsToClass(this,mod)`
     return `mod`
   end
   
@@ -1136,7 +1145,7 @@ class Class < Module
   #   foo = Foo.new(1,2)    #=> #<Foo:0x3cc57a>
   #   foo.values            #=> "a,b: [1,2]"
   # 
-  def new(*args)
+  def new
     `var result=this.m$allocate()`
     `this.prototype.m$initialize.apply(result,arguments)`
     return `result`
