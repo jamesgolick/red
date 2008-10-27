@@ -2738,7 +2738,7 @@ class Array
   # 
   # FIX: Doesn't handle loop control keywords
   def sort(block)
-    `c$Array.apply(null,this)._quickSort(0,this.length,block)`
+    `c$Array.apply(null,this)._quick_sort(0,this.length,block)`
   end
   
   # call-seq:
