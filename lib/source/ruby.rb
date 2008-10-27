@@ -507,7 +507,7 @@ class Object
   # 
   def instance_variables
     `var result=[]`
-    `for(var x in this){if(x.slice(0,2)=='i$'){result.push($q('@'+$_uncamel(x.slice(2,x.length))));};}`
+    `for(var x in this){if(x.slice(0,2)=='i$'){result.push($q('@'+x.slice(2,x.length)));};}`
     return `result`
   end
   
