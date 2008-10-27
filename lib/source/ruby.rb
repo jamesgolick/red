@@ -835,7 +835,7 @@ class Module
   def attr(attribute, writer = false)
     `var a=attribute.__value__`
     `f1=this.prototype['m$'+a]=function(){return this['i$'+arguments.callee._name];};f1._name=a`
-    `if(writer){f2=this.prototype['m$'+a.__value__+'Eql']=function(x){return this['i$'+arguments.callee._name]=x;};f2._name=a;}`
+    `if(writer){f2=this.prototype['m$'+a.__value__+'_eql']=function(x){return this['i$'+arguments.callee._name]=x;};f2._name=a;}`
     return nil
   end
   
@@ -843,7 +843,7 @@ class Module
     `for(var i=0,l=symbols.length;i<l;++i){
       var a=symbols[i].__value__;
       f1=this.prototype['m$'+a]=function(){return this['i$'+arguments.callee._name];};f1._name=a;
-      f2=this.prototype['m$'+a+'Eql']=function(x){return this['i$'+arguments.callee._name]=x;};f2._name=a;
+      f2=this.prototype['m$'+a+'_eql']=function(x){return this['i$'+arguments.callee._name]=x;};f2._name=a;
     }`
     return nil
   end
@@ -859,7 +859,7 @@ class Module
   def attr_writer(*symbols)
     `for(var i=0,l=symbols.length;i<l;++i){
       var a=symbols[i].__value__;
-      f=this.prototype['m$'+a+'Eql']=function(x){return this['i$'+arguments.callee._name]=x;};f._name=a;
+      f=this.prototype['m$'+a+'_eql']=function(x){return this['i$'+arguments.callee._name]=x;};f._name=a;
     }`
     return nil
   end
