@@ -134,13 +134,13 @@ window.__name__='window';
 window.prototype=window;
 window.__children__={'Object':true};
 window.m$include=function(){for(var i=0,modules=arguments,l=modules.length;i<l;++i){var mp=modules[i].prototype;for(var x in mp){if(x.slice(0,2)=='m$'){var f=function(){return arguments.callee._source[arguments.callee._name].apply(window,arguments) };f._source=mp;f._name=x;window[x]=f;};};modules[i].m$included(window);modules[i].__includers__['window']=true;};if(modules[0]!=c$Kernel){Red.donateMethodsToClass(window,c$Object.prototype);Red.updateChildren(c$Object);};return window;};
-window.m$blockGivenBool=function(){typeof(arguments[0])=='function'}
+window.m$block_given_bool=function(){typeof(arguments[0])=='function'}
 
 function $a(min,max,args,bg){var a=args.length-bg;if(a<min){n=min;}else{if(max!=-1&&a>max){n=max;}else{return;};};m$raise(c$ArgumentError, $q('wrong number of arguments ('+a+' for '+n+')'));}
-function $e(e,ary){if(e.m$isABool){for(var i=0,l=ary.length;i<l;++i){if(e.m$isABool(ary[i])){return true;};};};return false;};
+function $e(e,ary){if(e.m$is_a_bool){for(var i=0,l=ary.length;i<l;++i){if(e.m$is_a_bool(ary[i])){return true;};};};return false;};
 function $m(obj,name){var str=obj.m$inspect().__value__;str=str[0]=='#'?str:str+':'+obj.m$class().__name__;m$raise(c$NoMethodError, $q('undefined method "'+name+'" for '+str));}
 function $n(obj,name){var str=obj.m$inspect().__value__;str=str[0]=='#'?str:str+':'+obj.m$class().__name__;m$raise(c$NameError, $q('undefined local variable or method "'+name+'" for '+str));}
-function $Q(){for(var i=1,s=arguments[0],l=arguments.length;i<l;++i){s+=$q(arguments[i]).m$toS().__value__;};return $q(s);};
+function $Q(){for(var i=1,s=arguments[0],l=arguments.length;i<l;++i){s+=$q(arguments[i]).m$to_s().__value__;};return $q(s);};
 function $q(obj){if(typeof obj!=='string'){return obj;};return c$String.m$new(obj);};
 function $r(value,options){return c$Regexp.m$new(value,options);};
 function $s(value){return(c$Symbol.__table__[value]||c$Symbol.m$new(value));};
@@ -177,7 +177,7 @@ class Object
   # may override this behavior.
   # 
   def ==(other)
-    `this.__id__==other.__id__`
+    `this.__id__===other.__id__`
   end
   
   # call-seq:
@@ -188,7 +188,7 @@ class Object
   # semantics in case statements.
   # 
   def ===(other)
-    `this.__id__==other.__id__`
+    `this.__id__===other.__id__`
   end
   
   # call-seq:
@@ -231,7 +231,7 @@ class Object
   #   k.__send__(:hello, "gentle", "readers")  #=> "Hello gentle readers"
   # 
   def __send__(method,*args)
-    `method=this['m$'+sym.__value__.replace('=','Eql')]`
+    `method=this['m$'+sym.__value__.replace('=','_eql').replace('!','_bang').replace('?','_bool')]`
     `if(!method){m$raise(c$NoMethodError,$q('undefined method "'+sym.__value__+'" for '+this));}`
     `method.apply(this,args)`
   end
@@ -371,7 +371,7 @@ class Object
   #   k.hello         #=> "Hello from Mod"
   # 
   def extend(*modules)
-    `for(var i=0,l=modules.length;i<l;++i){modules[i].m$extendObject(this);modules[i].m$extended(this);}`
+    `for(var i=0,l=modules.length;i<l;++i){modules[i].m$extend_object(this);modules[i].m$extended(this);}`
     return self
   end
   
@@ -394,7 +394,7 @@ class Object
   # not overridden, uses the +to_s+ method to generate the string.
   # 
   def inspect
-    `this.m$toS()`
+    `this.m$to_s()`
   end
   
   # call-seq:
@@ -623,8 +623,8 @@ class Object
   #   k.methods.length   #=> 42
   # 
   def methods
-    `var result=[]`
-    `for(var x in this){if(x.slice(0,2)=='m$'&&x!='m$initialize'){$q($_uncamel(x.slice(2,x.length)));};}`
+    `var result=[],sub={_eql2:'==',_eql3:'===',_etld:'=~',_brac:'[]',_breq:'[]=',_lteq:'<=',_gteq:'>=',_ltlt:'<<',_gtgt:'>>',_lthn:'<',_gthn:'>',_ltgt:'<=>',_pipe:'|',_ampe:'&',_plus:'+',_posi:'+@',_nega:'-@',_star:'*',_str2:'**',_slsh:'/',_perc:'%',_care:'^',_tild:'~'}`
+    `for(var x in this){if(x.slice(0,2)=='m$'&&x!='m$initialize'){var str=x.slice(2,x.length);str=sub[str]||str;result.push($q(str.replace('_bool','?').replace('_bang','!').replace('_eql','=')));};}`
     return `result`
   end
   
@@ -699,7 +699,8 @@ class Object
   #   k.send(:hello, "gentle", "readers")  #=> "Hello gentle readers"
   # 
   def send(sym,*args)
-    `method=this['m$'+sym.__value__.replace('=','Eql')]`
+    `var str=sym.__value__.replace('=','_eql').replace('!','_bang').replace('?','_bool');sub={'==':'_eql2','===':'_eql3','=~':'_etld','[]':'_brac','[]=':'_breq','<=':'_lteq','>=':'_gteq','<<':'_ltlt','>>':'_gtgt','<':'_lthn','>':'_gthn','<=>':'_ltgt','|':'_pipe','&':'_ampe','+':'_plus','+@':'_posi','-@':'_nega','*':'_star','**':'_str2','/':'_slsh','%':'_perc','^':'_care','~':'_tild'}`
+    `var method=this['m$'+(sub[str]||str)]`
     `if(!method){m$raise(c$NoMethodError,$q('undefined method "'+sym.__value__+'" for '+this));}`
     `method.apply(this,args)`
   end
@@ -785,7 +786,7 @@ class Module
   #   a.say_bye          #=> "goodbye"
   # 
   def initialize(module_name, &block)
-    `this.__name__=moduleName.__value__||moduleName`
+    `this.__name__=module_name.__value__||module_name`
     `this.prototype={}`
   end
   
@@ -799,7 +800,7 @@ class Module
   end
   
   def ===(obj)
-    `obj.m$isABool(this)`
+    `obj.m$is_a_bool(this)`
   end
   
   def >(other_module)
@@ -983,7 +984,7 @@ class Module
   #   k.hello         #=> "Hello from Mod"
   # 
   def include(*modules)
-    `for(var i=0,l=modules.length;i<l;++i){var mod=modules[i];mod.m$appendFeatures(this);mod.m$included(this);mod.__includers__[this.__name__]=true;}`
+    `for(var i=0,l=modules.length;i<l;++i){var mod=modules[i];mod.m$append_features(this);mod.m$included(this);mod.__includers__[this.__name__]=true;}`
     return self
   end
   
@@ -1085,8 +1086,8 @@ class Class < Module
   # 
   # FIX: Incomplete
   def self.new(class_name, superclass = Object)
-    `Red._class(className.__value__,superclass,function(){})`
-    return `window['c$'+className.__value__]`
+    `Red._class(class_name.__value__,superclass,function(){})`
+    return `window['c$'+class_name.__value__]`
   end
   
   # call-seq:
@@ -1385,7 +1386,7 @@ module Kernel
   # 
   # FIX: Incomplete
   def puts(obj)
-    `var string=obj.m$toS&&obj.m$toS()||$q(''+obj)`
+    `var string=obj.m$to_s&&obj.m$to_s()||$q(''+obj)`
     `console.log(string.__value__.replace(/\\\\/g,'\\\\\\\\'))`
     return nil
   end
@@ -1393,7 +1394,7 @@ module Kernel
   # FIX: Incomplete
   def raise(*args)
     `var exception_class=c$RuntimeError,msg=$q('')`
-    `if(arguments[0]&&arguments[0].m$isABool(c$Exception)){
+    `if(arguments[0]&&arguments[0].m$is_a_bool(c$Exception)){
       var e=arguments[0];
     }else{
       if(arguments[0]&&arguments[0].m$class()==c$String){
@@ -1466,7 +1467,7 @@ module Kernel
           case'i':val=parseInt(arg);str=''+val;break;
           case'o':str=parseFloat(arg).toString(8);break;
           case'p':str=$q(arg).m$inspect().__value__;break;
-          case's':val=arg.m$toS&&arg.m$toS().__value__||arg;str=(m[3]?val.slice(0,m[2]):val);break;
+          case's':val=arg.m$to_s&&arg.m$to_s().__value__||arg;str=(m[3]?val.slice(0,m[2]):val);break;
           case'u':val=parseInt(arg);str=''+(val<0?'..'+(Math.pow(2,32)+val):val);break;
           case'X':str=parseInt(arg).toString(16).toUpperCase();break;
           case'x':str=parseInt(arg).toString(16);break;
@@ -1876,10 +1877,10 @@ class Array
   #   a[5,1]                #=> []
   #   a[5..10]              #=> []
   # 
-  def [](index, length)
+  def [](index, length = nil)
     `var l=this.length`
     `if(index.m$class()==c$Range){
-      var start=index.__start__,end=index.__esclusive__?index.__end__-1:index.__end__;
+      var start=index.__start__,end=index.__exclusive__?index.__end__-1:index.__end__;
       index=start<0?start+l:start;
       length=(end<0?end+l:end)-index+1;
       if(length<0){length=0};
@@ -2177,7 +2178,7 @@ class Array
   # 
   def eql?(ary)
     `if(ary.m$class()!==c$Array||ary.length!==this.length){return false;}`
-    `for(var i=0,l=this.length;i<l;++i){if(!(this[i].m$eqlBool(ary[i]))){return false;};}`
+    `for(var i=0,l=this.length;i<l;++i){if(!(this[i].m$eql_bool(ary[i]))){return false;};}`
     return true
   end
   
@@ -2371,8 +2372,8 @@ class Array
   #   %w(a b c).join('.')   #=> "a.b.c"
   # 
   def join(str = '')
-    `var result=this[0]!=null?this[0].m$join?this[0].m$join(str.__value__).__value__:this[0].m$toS().__value__:''`
-    `for(var i=1,l=this.length;i<l;++i){result+=(str.__value__||'')+(this[i].m$join?this[i].m$join(str).__value__:this[i].m$toS().__value__);}`
+    `var result=this[0]!=null?this[0].m$join?this[0].m$join(str.__value__).__value__:this[0].m$to_s().__value__:''`
+    `for(var i=1,l=this.length;i<l;++i){result+=(str.__value__||'')+(this[i].m$join?this[i].m$join(str).__value__:this[i].m$to_s().__value__);}`
     return `$q(result)`
   end
   
@@ -2756,7 +2757,7 @@ class Array
   # 
   # FIX: Doesn't handle loop control keywords
   def sort!(block)
-    `this._quickSort(0,this.length,block)`
+    `this._quick_sort(0,this.length,block)`
   end
   
   # call-seq:
@@ -2865,7 +2866,7 @@ class Array
   end
   
   `_._partition=function(first,last,pivot,block){var value=this[pivot],store=first;this._swap(pivot,last);for(var i=0,l=this.length;i<l;++i){if(i<first||i>=last){continue;};var cmp=block?block(this[i],value):this[i].m$_ltgt(value);if(cmp==-1||cmp==0){this._swap(store++,i);};};this._swap(last,store);return(store);}`
-  `_._quickSort=function(start,finish,block){if(finish-1>start){var pivot=start+Math.floor(Math.random()*(finish-start));pivot=this._partition(start,(finish-1),pivot,block);this._quickSort(start,pivot,block);this._quickSort((pivot+1),finish,block);};return(this);}`
+  `_._quick_sort=function(start,finish,block){if(finish-1>start){var pivot=start+Math.floor(Math.random()*(finish-start));pivot=this._partition(start,(finish-1),pivot,block);this._quick_sort(start,pivot,block);this._quick_sort((pivot+1),finish,block);};return(this);}`
   `_._replace=function(ary){this.length=0;for(var i=0,l=ary.length;i<l;++i){this.push(ary[i])};return this;}`
   `_._swap=function(x,y){var z=this[x];this[x]=this[y];this[y]=z;return this;}`
 end
@@ -2917,7 +2918,7 @@ class Exception
   # 
   def exception(arg)
     `if(arg==null||arg==this){return this;}`
-    `this.m$class().m$new(arg.m$toStr())`
+    `this.m$class().m$new(arg.m$to_str())`
   end
   
   # call-seq:
@@ -3749,7 +3750,7 @@ class Hash
   def sort(&block)
     `var c=this.__contents__,result=[]`
     `for(var x in c){if(x.slice(1,2)=='_'){result.push(c[x]);};}`
-    return `c$Array.prototype._quickSort.call(result,0,result.length,block)`
+    return `c$Array.prototype._quick_sort.call(result,0,result.length,block)`
   end
   
   # call-seq:
@@ -3951,7 +3952,7 @@ class MatchData
   end
   
   def inspect # :nodoc:
-    `c$Object.prototype.m$toS.apply(this)`
+    `c$Object.prototype.m$to_s.apply(this)`
   end
   
   # FIX: Incomplete
@@ -4939,7 +4940,7 @@ class Range
   # 
   def eql?(object)
     `if(object.constructor!==c$Range){return false;}`
-    `this.__start__.m$eqlBool(object.__start__)&&this.__end__.m$eqlBool(object.__end__)&&this.__exclusive__==object.__exclusive__`
+    `this.__start__.m$eql_bool(object.__start__)&&this.__end__.m$eql_bool(object.__end__)&&this.__exclusive__==object.__exclusive__`
   end
   
   # call-seq:

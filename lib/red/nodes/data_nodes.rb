@@ -44,7 +44,8 @@ module Red
     class String < DataNode # :nodoc:
       # 'foo'
       def initialize(value_data, options)
-        value  = options[:no_escape] ? value_data : value_data.gsub(/'/, "\\\\'")
+      # value  = options[:no_escape] ? value_data : value_data.gsub(/"/, '\\"')
+        value  = value_data
         string = options[:unquoted] ? "%s" % [value] : "%s" % [value.inspect]
         self << string
       end
@@ -54,15 +55,16 @@ module Red
       # :foo
       def initialize(value_data, options)
         value  = self.camelize(value_data.to_s, options[:not_camelized])
-        string = options[:as_receiver] ? "$q('%s')" : options[:as_argument] ? "'%s'" : "%s"
+        string = options[:as_receiver] ? "$q(\"%s\")" : options[:as_argument] ? "\"%s\"" : "%s"
         self << string % [value]
       end
       
       def camelize(string, disabled = false)
-        return string unless self.camelize?(string) && !disabled
-        words = string.gsub(/@/,'').gsub('?','_bool').gsub('!','_bang').gsub('=','_eql').split(/_/)
-        underscore = words.shift if words.first.empty?
-        return (underscore ? '_' : '') + words[0] + words[1..-1].map {|word| word == word.upcase ? word : word.capitalize }.join
+        return string.gsub(/@/,'').gsub('?','_bool').gsub('!','_bang').gsub('=','_eql')
+      # return string unless self.camelize?(string) && !disabled
+      # words = string.gsub(/@/,'').gsub('?','_bool').gsub('!','_bang').gsub('=','_eql').split(/_/)
+      # underscore = words.shift if words.first.empty?
+      # return (underscore ? '_' : '') + words[0] + words[1..-1].map {|word| word == word.upcase ? word : word.capitalize }.join
       end
       
       def camelize?(string)

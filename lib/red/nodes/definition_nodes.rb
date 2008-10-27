@@ -98,8 +98,8 @@ module Red
           maximum_args    = args_array.length - (block_arg_sexp ? 1 : 0)
           minimum_args    = maximum_args - (defaults_sexp ? defaults_sexp.flatten.select {|x| x == :lasgn}.length : 0)
           splatten_args   = "for(var l=arguments.length,i=#{argument_sexps.size},#{splat_arg}=[];i<l;++i){#{splat_arg}.push(arguments[i]);}" if splat_arg && !block_arg_sexp
-          splat_block     = "for(var l=arguments.length,bg=m$blockGivenBool(arguments[l-1]),l=bg?l-1:l,i=#{argument_sexps.size - 1},#{splat_arg}=[];i<l;++i){#{splat_arg}.push(arguments[i]);};var #{block_arg_sexp.last rescue :_block}=(bg?c$Proc.m$new(arguments[arguments.length-1]):nil)" if splat_arg && block_arg_sexp
-          block_arg       = "var z=arguments[arguments.length-1],bg=m$blockGivenBool(z),#{block_arg_sexp.last rescue :_block}=bg?c$Proc.m$new(z):nil" if block_arg_sexp && !splat_arg
+          splat_block     = "for(var l=arguments.length,bg=m$block_given_bool(arguments[l-1]),l=bg?l-1:l,i=#{argument_sexps.size - 1},#{splat_arg}=[];i<l;++i){#{splat_arg}.push(arguments[i]);};var #{block_arg_sexp.last rescue :_block}=(bg?c$Proc.m$new(arguments[arguments.length-1]):nil)" if splat_arg && block_arg_sexp
+          block_arg       = "var z=arguments[arguments.length-1],bg=m$block_given_bool(z),#{block_arg_sexp.last rescue :_block}=bg?c$Proc.m$new(z):nil" if block_arg_sexp && !splat_arg
           args_checker    = "$a(%s,%s,arguments,%s)" % [minimum_args, (splat_arg ? -1 : maximum_args), (splat_block || block_arg ? "bg?1:0" : "arguments[arguments.length-1]&&arguments[arguments.length-1].__block__?1:0")] if Red.debug && ![:new, :initialize].include?(function_name_sexp)
           defaults        = defaults_sexp.red!(:as_argument_default => true) if defaults_sexp
           arguments       = args_array.join(",")
@@ -137,8 +137,8 @@ module Red
           maximum_args    = args_array.length - (block_arg_sexp ? 1 : 0)
           minimum_args    = maximum_args - (defaults_sexp ? defaults_sexp.flatten.select {|x| x == :lasgn}.length : 0)
           splatten_args   = "for(var l=arguments.length,i=#{argument_sexps.size},#{splat_arg}=[];i<l;++i){#{splat_arg}.push(arguments[i]);}" if splat_arg && !block_arg_sexp
-          splat_block     = "for(var l=arguments.length,bg=m$blockGivenBool(arguments[l-1]),l=bg?l-1:l,i=#{argument_sexps.size - 1},#{splat_arg}=[];i<l;++i){#{splat_arg}.push(arguments[i]);};var #{block_arg_sexp.last rescue :_block}=(bg?c$Proc.m$new(arguments[arguments.length-1]):nil)" if splat_arg && block_arg_sexp
-          block_arg       = "var z=arguments[arguments.length-1],bg=m$blockGivenBool(z),#{block_arg_sexp.last rescue :_block}=bg?c$Proc.m$new(z):nil" if block_arg_sexp && !splat_arg
+          splat_block     = "for(var l=arguments.length,bg=m$block_given_bool(arguments[l-1]),l=bg?l-1:l,i=#{argument_sexps.size - 1},#{splat_arg}=[];i<l;++i){#{splat_arg}.push(arguments[i]);};var #{block_arg_sexp.last rescue :_block}=(bg?c$Proc.m$new(arguments[arguments.length-1]):nil)" if splat_arg && block_arg_sexp
+          block_arg       = "var z=arguments[arguments.length-1],bg=m$block_given_bool(z),#{block_arg_sexp.last rescue :_block}=bg?c$Proc.m$new(z):nil" if block_arg_sexp && !splat_arg
           args_checker    = "$a(%s,%s,arguments,%s)" % [minimum_args, (splat_arg ? -1 : maximum_args), (splat_block || block_arg ? "bg?1:0" : 0)]#{}"arguments[arguments.length-1]&&arguments[arguments.length-1].__block__?1:0")]
           defaults        = defaults_sexp.red!(:as_argument_default => true) if defaults_sexp
           arguments       = args_array.join(",")
