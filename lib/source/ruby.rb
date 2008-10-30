@@ -6790,6 +6790,22 @@ class TrueClass
     `this.valueOf()?!$T(object):$T(object)`
   end
   
+  def ==(obj) # :nodoc:
+    `obj.valueOf&&obj.valueOf()===this.valueOf()`
+  end
+  
+  def ===(obj) # :nodoc:
+    `obj.valueOf&&obj.valueOf()===this.valueOf()`
+  end
+  
+  def eql?(obj) # :nodoc:
+    `obj.valueOf&&obj.valueOf()===this.valueOf()`
+  end
+  
+  def equal?(obj) # :nodoc:
+    `obj.valueOf&&obj.valueOf()===this.valueOf()`
+  end
+  
   def hash # :nodoc:
     `'b_'+this.valueOf()`
   end
