@@ -207,6 +207,7 @@ module Red # :nodoc:
     new
     raise
     sprintf
+    superclass
     to_proc
     to_s
     to_str
