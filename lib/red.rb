@@ -222,6 +222,7 @@ module Red # :nodoc:
     @@red_block_arg   = nil
     @@red_import      = false
     @@red_boolean     = '`'
+    @@red_required    = []
     return true
   end
   

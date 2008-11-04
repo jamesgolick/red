@@ -72,6 +72,7 @@ module Red # :nodoc:
       puts "File #{filename}.red does not exist."
       exit
     end
+    @@red_filepath = File.dirname(File.expand_path(filename))
     js_output = hush_warnings { File.read(file).translate_to_sexp_array }.red!
     ruby_js   = compile_ruby_js_source
     pre  = Red.debug ? "try{" : ""
