@@ -4901,7 +4901,7 @@ class Range
   # FIX: Incomplete
   def each
     `var start=this.__start__,end=this.__end__`
-    `if(typeof(start)=='number'&&typeof(end)=='number'){if(!this.__exclusive__){end++;};for(var i=start;i<end;i++){#{yield `i`};};}`
+    `if(typeof(start)=='number'&&typeof(end)=='number'){if(!this.__exclusive__){end++;};for(var i=start;i<end;i++){try{#{yield `i`};}catch(e){switch(e.__keyword__){case 'next':break;case 'break':return e.__return__;break;case 'redo':--i;break;default:throw(e);};};};}`
     return self
   end
   
