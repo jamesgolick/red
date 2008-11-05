@@ -27,9 +27,10 @@ script/destroy
 script/generate
 script/txt2html
 setup.rb
-spec/red_spec.rb
-spec/spec.opts
-spec/spec_helper.rb
+spec/array.red
+spec/hash.red
+spec/object.red
+spec/string.red
 tasks/deployment.rake
 tasks/environment.rake
 tasks/rspec.rake
