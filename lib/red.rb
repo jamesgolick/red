@@ -213,7 +213,8 @@ module Red # :nodoc:
     to_str
   }.map {|m| m.to_sym }
   
-  def self.init
+  def self.init(file = '')
+    @@red_filepath    = File.dirname(File.expand_path(file))
     @@namespace_stack = []
     @@red_constants   = NATIVE_CONSTANTS
     @@red_methods     = INTERNAL_METHODS
