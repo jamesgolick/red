@@ -85,7 +85,7 @@ module Red
             long_filename  = File.join(@@red_filepath, dirname, basename)
             unless @@red_required.include?(basename)
               @@red_required |= [basename]
-              file = Dir.glob(short_filename)[0] || Dir.glob('%s.red' % short_filename)[0] || Dir.glob('%s.rb' % short_filename)[0] || Dir.glob(long_filename)[0] || Dir.glob('%s.red' % long_filename)[0] || Dir.glob('%s.rb' % long_filename)[0] || Dir.glob('%s/../../source/redshift/%s' % [File.dirname(__FILE__),basename])[0] || Dir.glob('%s/../../source/redshift/%s.red' % [File.dirname(__FILE__),basename])[0]
+              file = Dir.glob(short_filename)[0] || Dir.glob('%s.red' % short_filename)[0] || Dir.glob('%s.rb' % short_filename)[0] || Dir.glob(long_filename)[0] || Dir.glob('%s.red' % long_filename)[0] || Dir.glob('%s.rb' % long_filename)[0] || Dir.glob('%s/../../source/%s' % [File.dirname(__FILE__),basename])[0] || Dir.glob('%s/../../source/%s.red' % [File.dirname(__FILE__),basename])[0] || Dir.glob('%s/../../source/%s.rb' % [File.dirname(__FILE__),basename])[0]
               stored_filepath = @@red_filepath
               @@red_filepath = File.dirname(file)
               self << hush_warnings { File.read(file).translate_to_sexp_array }.red!

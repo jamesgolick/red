@@ -29,3 +29,6 @@ Dir['tasks/**/*.rake'].each { |t| load t }
 
 # TODO - want other tests/tasks run by default? Add them to the list
 # task :default => [:spec, :features]
+
+desc 'Install the gem locally without documentation'
+task :local => [:install_gem_no_doc]
