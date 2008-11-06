@@ -15,7 +15,7 @@ require 'red/nodes/logic_nodes'
 require 'red/nodes/variable_nodes'
 
 module Red # :nodoc:
-  VERSION = '4.1.2'
+  VERSION = '4.1.3'
   
   ARRAY_NODES = {
     :and          => LogicNode::Conjunction::And,
