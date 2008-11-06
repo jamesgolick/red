@@ -5,13 +5,11 @@ PostInstall.txt
 README.txt
 Rakefile
 bin/red
-config/hoe.rb
-config/requirements.rb
+config/website.yml
 lib/red.rb
 lib/red/errors.rb
 lib/red/executable.rb
 lib/red/plugin.rb
-lib/red/version.rb
 lib/red/nodes/assignment_nodes.rb
 lib/red/nodes/call_nodes.rb
 lib/red/nodes/control_nodes.rb
@@ -22,7 +20,6 @@ lib/red/nodes/literal_nodes.rb
 lib/red/nodes/logic_nodes.rb
 lib/red/nodes/variable_nodes.rb
 lib/source/ruby.rb
-lib/source/redshift
 lib/source/redshift/accessors.rb
 lib/source/redshift/browser.rb
 lib/source/redshift/chainable.rb
@@ -41,7 +38,6 @@ lib/source/redshift/tween.rb
 lib/source/redshift/user_events.rb
 lib/source/redshift/validator.rb
 lib/source/redshift/window.rb
-lib/source/redspec
 lib/source/redspec/index.html
 lib/source/redspec/lib
 lib/source/redspec/lib/red_spec
@@ -56,6 +52,3 @@ spec/array.red
 spec/hash.red
 spec/object.red
 spec/string.red
-tasks/deployment.rake
-tasks/environment.rake
-tasks/rspec.rake
