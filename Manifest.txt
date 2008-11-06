@@ -46,8 +46,6 @@ lib/source/redspec/lib/stylesheets/specs.sass
 script/console
 script/destroy
 script/generate
-script/txt2html
-setup.rb
 spec/array.red
 spec/hash.red
 spec/object.red
