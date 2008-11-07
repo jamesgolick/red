@@ -3,6 +3,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'parse_tree'
 require 'red/errors'
+require 'red/executable'
 require 'red/plugin'
 require 'red/nodes/assignment_nodes'
 require 'red/nodes/call_nodes'

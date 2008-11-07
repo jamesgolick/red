@@ -9,18 +9,6 @@ module Red # :nodoc:
     puts @files && exit
   end
   
-  # def add_unobtrusive(library)
-  #   @files ||= ''
-  #   self.build_red_plugin_for_rails(false)
-  #   self.create_plugin_file(:copy, 'public/javascripts/dom_ready.js', File.join(File.dirname(__FILE__), "../javascripts/#{(library || '').downcase}_dom_ready.js"))
-  #   self.create_plugin_file(:copy, 'public/javascripts/red/unobtrusive.red', File.join(File.dirname(__FILE__), "../javascripts/red/unobtrusive.red"))
-  #   
-  # rescue Errno::ENOENT
-  #   puts "There is no Unobtrusive Red support for #{library}"
-  # ensure
-  #   puts @files && exit
-  # end
-  
   def make_plugin_directory(dir, only_this_directory = false)
     parent_dir = File.dirname(dir)
     self.make_plugin_directory(parent_dir) unless File.exists?(parent_dir) || only_this_directory
