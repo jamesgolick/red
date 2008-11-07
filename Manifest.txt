@@ -19,6 +19,8 @@ lib/red/nodes/illegal_nodes.rb
 lib/red/nodes/literal_nodes.rb
 lib/red/nodes/logic_nodes.rb
 lib/red/nodes/variable_nodes.rb
+lib/source/redshift.rb
+lib/source/redspec.rb
 lib/source/ruby.rb
 lib/source/redshift/accessors.rb
 lib/source/redshift/browser.rb
