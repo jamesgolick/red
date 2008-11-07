@@ -3,7 +3,7 @@ module Red # :nodoc:
     @files ||= ''
     self.make_plugin_directory('vendor/plugins/red', true)
     self.create_plugin_file(:open, 'vendor/plugins/red/init.rb', "require 'rubygems'\nrequire 'red'\n\nRed.rails\n")
-    self.make_plugin_directory('public/javascripts/red')
+    self.make_plugin_directory('public/javascripts/red/lib')
     
     return unless display_message
     puts @files && exit
