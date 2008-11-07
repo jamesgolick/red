@@ -1,1 +1,1 @@
-require 'redshift/redshift'
+require 'redshift/redshift.red'
