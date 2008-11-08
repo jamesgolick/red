@@ -7,7 +7,7 @@ $hoe = Hoe.new('red', Red::VERSION) do |p|
   p.developer('Jesse Sielaff', 'jesse.sielaff@gmail.com')
   p.description          = 'Red writes like Ruby and runs like JavaScript.'
   p.changes              = '' #p.paragraphs_of("History.txt", 0..1).join("\n\n")
-  p.post_install_message = 'PostInstall.txt'
+  p.post_install_message = 'For more information on Red, see http://github.com/backtik/red/wikis'
   p.name                 = 'red'
   p.rubyforge_name       = 'red-js'
   p.extra_deps           = [

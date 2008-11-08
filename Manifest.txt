@@ -1,9 +1,3 @@
-History.txt
-License.txt
-Manifest.txt
-PostInstall.txt
-README.txt
-Rakefile
 bin/red
 config/website.yml
 lib/red.rb
@@ -41,13 +35,12 @@ lib/source/redshift/user_events.rb
 lib/source/redshift/validator.rb
 lib/source/redshift/window.rb
 lib/source/redspec/index.html
-lib/source/redspec/lib
-lib/source/redspec/lib/red_spec
 lib/source/redspec/lib/red_spec/red_spec.red
 lib/source/redspec/lib/stylesheets/specs.sass
-script/console
-script/destroy
-script/generate
+License.txt
+Manifest.txt
+Rakefile
+README.txt
 spec/array.red
 spec/hash.red
 spec/object.red
