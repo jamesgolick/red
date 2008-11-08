@@ -51,6 +51,7 @@
       var includer=Red.inferConstantFromString(x);
       Red.donateMethodsToSingleton(module,includer,false);
       Red.donateMethodsToClass(module.prototype,includer.prototype,false);
+      if(includer == window){return nil;};
       switch(includer.m$class().__name__){case 'Module':Red.updateIncluders(includer);break;case 'Class':Red.updateChildren(includer);break;};
     };
   },
