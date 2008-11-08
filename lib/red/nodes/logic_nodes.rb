@@ -50,9 +50,9 @@ module Red
         end
         
         def self.string # :nodoc:
-          a = @@red_boolean.succ!.dup
-          b = @@red_boolean.succ!.dup
-          c = @@red_boolean.succ!.dup
+          a = javascript_safe_succ!(@@red_boolean).dup
+          b = javascript_safe_succ!(@@red_boolean).dup
+          c = javascript_safe_succ!(@@red_boolean).dup
           "(($.%s=$T(%s))?(($.%s=$T($.%s=%s))?$.%s:$.%s):$.%s)" % [a, '%s', c, b, '%s', b, c, a]
         end
       end
@@ -66,7 +66,7 @@ module Red
         end
         
         def self.string
-          a = @@red_boolean.succ!.dup
+          a = javascript_safe_succ!(@@red_boolean).dup
           "($T($.%s=%s)?$.%s:%s)" % [a, '%s', a, '%s']
         end
       end

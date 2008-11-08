@@ -256,4 +256,10 @@ module Red # :nodoc:
   def self.rails
     require 'red/plugin'
   end
+  
+  def javascript_safe_succ!(string)
+    string.succ!
+    string.succ! if %w(as break byte case catch char class const do else enum false final float for goto if in int is long on new null short super this throw true try use var void while with).include?(string)
+    return string
+  end
 end

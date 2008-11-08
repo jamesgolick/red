@@ -46,7 +46,7 @@ module Red
       def initialize(variable_name_sexp, expression_sexp, options)
         variable_name = variable_name_sexp.red!
         expression    = expression_sexp.red!(:as_assignment => true)
-        a             = @@red_boolean.succ!.dup
+        a             = javascript_safe_succ!(@@red_boolean).dup
         if options[:as_argument_default]
           self << "%s=$T($.%s=%s)?$.%s:%s" % [variable_name, a, variable_name, a, expression]
         else
