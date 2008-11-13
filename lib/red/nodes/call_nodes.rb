@@ -104,7 +104,7 @@ module Red
           else
             if Red.debug
               error_function = arguments.empty? ? 'n' : 'm'
-              self << "((this.m$%s&&this.m$%s(%s))||(window.m$%s&&window.m%s(%s))||$%s(this,'%s'))" % [function,function,arguments,function,function,arguments,error_function,function_sexp]
+              self << "((this.m$%s&&this.m$%s(%s))||(window.m$%s&&window.m$%s(%s))||$%s(this,'%s'))" % [function,function,arguments,function,function,arguments,error_function,function_sexp]
             else
               arguments = ','+arguments unless arguments.empty?
               self << "(this.m$%s||window.m$%s).call(this%s)" % [function, function, arguments]
