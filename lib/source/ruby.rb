@@ -4777,8 +4777,8 @@ class Proc
   #   
   #   proc.call(4)    #=> 400
   # 
-  def call
-    `this.__block__.apply(this,arguments)`
+  def call(*args)
+    `this.__block__.apply(this,args)`
   end
   
   # call-seq:
