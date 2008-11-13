@@ -1,0 +1,6 @@
+[submodule "lib/source/redshift"]
+  path = lib/source/redshift
+  url = git://github.com/backtik/redshift.git
+[submodule "lib/source/redspec"]
+  path = lib/source/redspec
+  url = git://github.com/backtik/redspec.git
