@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'newgem'
+require 'hoe'
 %w[rubygems rake rake/clean fileutils newgem rubigen].each { |f| require f }
 require File.dirname(__FILE__) + '/lib/red'
 
@@ -11,8 +14,8 @@ $hoe = Hoe.new('red', Red::VERSION) do |p|
   p.name                 = 'red'
   p.rubyforge_name       = 'red-js'
   p.extra_deps           = [
-    ['ParseTree', '~> 2.2.0'],
-    ['rake', '~> 0.8.3']
+    ['ParseTree', '>= 2.2.0'],
+    ['rake', '>= 0.8.3']
   ]
   p.extra_dev_deps       = [
     ['newgem', ">= #{::Newgem::VERSION}"]
