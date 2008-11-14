@@ -1,5 +1,3 @@
-require 'rubygems'
-require 'red'
 require 'pathname'
 
 class Pathname; alias / + end
