@@ -1,4 +1,3 @@
-(in /home/collin/code/red)
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
