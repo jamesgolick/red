@@ -69,7 +69,7 @@ module Red
   if defined?(RAILS_ENV) 
     module RailsPlugin
       def self.framework_root
-        RAILS_ROOT
+        Pathname.new RAILS_ROOT
       end
       
       def self.framework_env
@@ -92,16 +92,43 @@ module Red
       
       def self.red_files
         files = self.options[:load_paths].map do |load_path|
-          SourceFile.glob "#{framework_root / load_path}.{rb,red}"
+          SourceFile.glob "#{framework_root}#{load_path}/*.{rb,red}"
         end 
         files.flatten
       end
+
+      class << self
+        attr_accessor :options
+      end
+
+      self.options = {
+        :load_paths => ['/public/javascripts/red'],
+        :always_check => !(self.framework_env == 'production')
+      }
+      
+      module Mixin
+        def self.included(base)
+          base.send('alias_method', :red_old_process, :process)
+          base.class_eval do
+            def process(*args)
+              puts "FUCKING UPDATE"
+              puts RailsPlugin.red_files.inspect
+              RailsPlugin.update_javascripts  
+              red_old_process(*args)
+            end
+          end
+        end
+      end
     end
 
-    if defined?(ActionController) 
-      unless ActionController.ancestors.include?(Red::RailsPlugin)
-        ActionController::Base.send(:include, Red::RailsPlugin)
+    if RailsPlugin.options[:always_check]
+      if defined?(ActionController) 
+        unless ActionController.ancestors.include?(Red::RailsPlugin::Mixin)
+          ActionController::Base.send(:include, Red::RailsPlugin::Mixin)
+        end
       end
+    else
+      RailsPlugin.update_javascripts
     end
   end
   
