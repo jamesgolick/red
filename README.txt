@@ -12,6 +12,9 @@ To get Red working, install the rubygem.
 
   sudo gem install red
 
+=== Plugins
+Read about plugins here: http://pastie.org/314881
+
 === Tutorials
 
 Find more info at Github on how to use Red: http://github.com/jessesielaff/red/wikis
