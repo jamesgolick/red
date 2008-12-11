@@ -233,6 +233,26 @@ module Red # :nodoc:
   def self.debug
     false
   end
+
+  @@load_path ||= [File.dirname(__FILE__) + '/source']
+
+  def self.load_path=(load_path)
+    @@load_path = load_path
+  end
+
+  def self.load_path
+    @@load_path
+  end
+
+  def self.file_in_load_path(dirname, file_name)
+    possible_files = (load_path + [@@red_filepath]).map do |p|
+      [File.join(p, dirname, file_name) + '.red',
+       File.join(p, dirname, file_name) + '.rb',
+       File.join(p, dirname, file_name)]
+    end.flatten
+
+    possible_files.detect { |f| File.exist?(f) }
+  end
   
   def red!(options = {}, reset = false)
     case self
